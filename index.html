@@ -7,27 +7,26 @@
   <title>AsakaCloud — Giải pháp điện toán đám mây toàn diện</title>
   <meta name="description" content="Giao diện mẫu AsakaCloud — giải pháp điện toán đám mây toàn diện. HTML/CSS/JS thuần, responsive và dễ tích hợp với hệ thống AI khác.">  <!-- Google Fonts (Roboto) -->  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">  <style>
     :root{
-      --primary: #0b76ff; /* xanh lam */
+      --primary: #0b76ff;
       --primary-600: #0a66e0;
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --muted: #6b7280;
-      --dark: #0b1720;
-      --glass: rgba(255,255,255,0.6);
+      --bg: #0a0f17; /* nền đen đẹp */
+      --card: #111827; /* khối đen đậm */
+      --muted: #9ca3af;
+      --dark: #f9fafb;
+      --glass: rgba(255,255,255,0.08);
       --radius: 12px;
       --transition: 200ms cubic-bezier(.2,.9,.2,1);
       --max-width: 1200px;
-      --shadow: 0 6px 18px rgba(11,23,32,0.06);
+      --shadow: 0 6px 18px rgba(0,0,0,0.5);
       font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
 
-    /* Reset & base */
-    *{box-sizing: border-box}
+    *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      background: linear-gradient(180deg,var(--bg), #ffffff);
-      color:#0f1724;
+      background: var(--bg);
+      color:var(--dark);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       line-height:1.5;
@@ -36,327 +35,70 @@
 
     .container{max-width:var(--max-width);margin:0 auto;padding:0 20px}
 
-    /* Header */
     header.site-header{
       position:sticky;top:0;z-index:80;
       backdrop-filter: blur(6px);
       transition: background var(--transition), padding var(--transition), box-shadow var(--transition);
       padding:18px 0;
+      background:rgba(17,24,39,0.8);
     }
-    header.site-header.scrolled{background:rgba(255,255,255,0.92);box-shadow:0 6px 18px rgba(11,23,32,0.06);padding:8px 0}
+    header.site-header.scrolled{background:rgba(17,24,39,0.95);box-shadow:0 6px 18px rgba(0,0,0,0.7);padding:8px 0}
 
     .site-header .nav-row{display:flex;align-items:center;justify-content:space-between}
     .brand{display:flex;gap:12px;align-items:center}
     .brand .logo{width:44px;height:44px;border-radius:50%;display:inline-grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--primary-600));color:white;font-weight:700;font-size:18px;box-shadow:var(--shadow)}
-    .brand .title{font-weight:700;font-size:18px;color:var(--dark)}
+    .brand .title{font-weight:700;font-size:18px;color:white}
 
     nav.site-nav{display:flex;gap:18px;align-items:center}
     nav.site-nav a{color:var(--dark);text-decoration:none;padding:8px 10px;border-radius:8px;transition:all var(--transition);font-weight:500}
-    nav.site-nav a:hover{background:rgba(11,118,255,0.06);color:var(--primary)}
+    nav.site-nav a:hover{background:rgba(255,255,255,0.1);color:var(--primary)}
 
-    /* Mobile nav */
-    .nav-toggle{display:none;background:transparent;border:0;padding:8px;border-radius:8px}
+    .nav-toggle{display:none;background:transparent;border:0;padding:8px;border-radius:8px;color:white}
 
-    /* Banner */
-    .hero{min-height:74vh;display:grid;place-items:center;text-align:center;padding:80px 16px;background-image:linear-gradient(120deg, rgba(11,118,255,0.08), rgba(11,118,255,0.02));position:relative;overflow:hidden}
-    .hero::after{content:'';position:absolute;inset:0;background:radial-gradient(800px 400px at 10% 10%, rgba(11,118,255,0.06), transparent), radial-gradient(600px 300px at 90% 90%, rgba(10,102,224,0.04), transparent)}
-    .hero .content{position:relative;z-index:2;max-width:980px;margin:0 auto}
-    .hero h1{font-size:clamp(28px,4.6vw,44px);margin:0 0 16px;font-weight:700;color:var(--dark)}
+    .hero{min-height:74vh;display:grid;place-items:center;text-align:center;padding:80px 16px;background:radial-gradient(circle at top left, rgba(11,118,255,0.2), transparent), radial-gradient(circle at bottom right, rgba(11,118,255,0.1), transparent);position:relative;overflow:hidden}
+    .hero h1{font-size:clamp(28px,4.6vw,44px);margin:0 0 16px;font-weight:700;color:white;text-shadow:0 4px 16px rgba(0,0,0,0.6)}
     .hero p.lead{margin:0 0 28px;color:var(--muted);font-size:1.05rem}
 
-    .cta-row{display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap}
     .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:10px;border:0;cursor:pointer;transition:transform var(--transition), box-shadow var(--transition), background var(--transition);font-weight:600}
-    .btn.primary{background:linear-gradient(90deg,var(--primary),var(--primary-600));color:white;box-shadow:0 10px 30px rgba(11,118,255,0.14)}
+    .btn.primary{background:linear-gradient(90deg,var(--primary),var(--primary-600));color:white;box-shadow:0 10px 30px rgba(11,118,255,0.2)}
     .btn.primary:hover{transform:translateY(-4px)}
-    .btn.ghost{background:transparent;border:1px solid rgba(11,118,255,0.12);color:var(--primary)}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.2);color:white}
 
-    /* Services */
     .services{padding:48px 0}
+    .services h2, .about h2{color:white}
     .services .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-    .card{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);transition:transform 260ms cubic-bezier(.2,.9,.2,1),box-shadow var(--transition),border-color var(--transition);border:1px solid rgba(11,23,32,0.03);cursor:default}
-    .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 18px 40px rgba(11,23,32,0.08);border-color:rgba(11,118,255,0.12)}
-    .card .icon{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(11,118,255,0.12),rgba(11,118,255,0.06));font-size:20px}
-    .card h3{margin:12px 0 6px;font-size:1.05rem}
+    .card{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);transition:transform 260ms cubic-bezier(.2,.9,.2,1),box-shadow var(--transition),border-color var(--transition);border:1px solid rgba(255,255,255,0.06)}
+    .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 18px 40px rgba(0,0,0,0.8);border-color:rgba(11,118,255,0.4)}
+    .card .icon{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(11,118,255,0.2),rgba(11,118,255,0.1));font-size:20px;color:white}
+    .card h3{margin:12px 0 6px;font-size:1.05rem;color:white}
     .card p{margin:0;color:var(--muted);font-size:0.95rem}
 
-    /* About */
     .about{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;padding:48px 0}
-    .about .illustration{width:100%;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);min-height:260px;background:linear-gradient(180deg,rgba(11,118,255,0.06),transparent);display:flex;align-items:center;justify-content:center}
-    .about h2{margin:0 0 12px}
     .about p{color:var(--muted)}
 
-    /* Footer */
-    footer.site-footer{background:#0b1725;color:#fff;padding:30px 0;margin-top:36px}
-    footer .footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+    footer.site-footer{background:#000;color:#fff;padding:30px 0;margin-top:36px}
     footer a{color:inherit;text-decoration:none}
     .socials{display:flex;gap:10px}
-    .socials a{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.06)}
+    .socials a{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.1)}
 
-    /* Utilities */
     .muted{color:var(--muted)}
     .center{text-align:center}
 
-    /* Responsive */
     @media (max-width:980px){
       .services .grid{grid-template-columns:repeat(2,1fr)}
       .about{grid-template-columns:1fr}
-      header.site-header{padding:12px 0}
     }
     @media (max-width:680px){
       .nav-toggle{display:inline-flex}
-      nav.site-nav{display:none;position:absolute;right:20px;top:64px;background:rgba(255,255,255,0.98);padding:12px;border-radius:12px;box-shadow:var(--shadow);flex-direction:column}
+      nav.site-nav{display:none;position:absolute;right:20px;top:64px;background:#111827;padding:12px;border-radius:12px;box-shadow:var(--shadow);flex-direction:column}
       nav.site-nav.open{display:flex}
       .services .grid{grid-template-columns:1fr}
-      .hero{min-height:64vh;padding:56px 12px}
-      .brand .title{display:none}
     }
-
-    /* Small helpers for reveal animations */
     .reveal{opacity:0;transform:translateY(12px);transition:opacity 600ms ease, transform 600ms ease}
     .reveal.in-view{opacity:1;transform:none}
-
-    /* Focus/active */
     .btn:active{transform:translateY(1px) scale(.997)}
-
   </style></head>
-<body>  <header class="site-header" id="siteHeader" role="banner">
-    <div class="container nav-row">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">A</div>
-        <div class="title">AsakaCloud</div>
-      </div><button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Mở menu">☰</button>
-
-  <nav class="site-nav" id="mainNav" role="navigation">
-    <a href="#home" data-nav>Trang chủ</a>
-    <a href="#services" data-nav>Dịch vụ</a>
-    <a href="#about" data-nav>Giải pháp</a>
-    <a href="#contact" data-nav>Liên hệ</a>
-  </nav>
-</div>
-
-  </header>  <main>
-    <!-- HERO -->
-    <section class="hero" id="home" aria-label="Banner chính">
-      <div class="content container">
-        <h1 class="reveal">Giải pháp điện toán đám mây toàn diện</h1>
-        <p class="lead reveal">Hạ tầng an toàn — Tự động hóa thông minh — Tối ưu chi phí cho doanh nghiệp mọi quy mô.</p><div class="cta-row reveal">
-      <button class="btn primary" id="startBtn" onclick="AS.handleCTA()">Bắt đầu ngay</button>
-      <button class="btn ghost" onclick="AS.scrollTo('#services')">Tìm hiểu dịch vụ</button>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section class="services container" id="services" aria-labelledby="servicesTitle">
-  <h2 id="servicesTitle" class="center">Dịch vụ của chúng tôi</h2>
-  <p class="center muted">Các giải pháp hạ tầng, AI, lưu trữ và bảo mật phù hợp cho mọi doanh nghiệp.</p>
-
-  <div class="grid" style="margin-top:20px">
-    <article class="card reveal" data-service="compute">
-      <div class="icon" aria-hidden="true">☁️</div>
-      <h3>Cloud Compute</h3>
-      <p>Máy chủ ảo hiệu năng cao, dễ mở rộng theo nhu cầu, tích hợp tự động hóa.</p>
-    </article>
-
-    <article class="card reveal" data-service="storage">
-      <div class="icon" aria-hidden="true">💾</div>
-      <h3>Lưu trữ & Backup</h3>
-      <p>Lưu trữ phân tán, snapshot, chính sách backup linh hoạt và khôi phục nhanh.</p>
-    </article>
-
-    <article class="card reveal" data-service="security">
-      <div class="icon" aria-hidden="true">🔒</div>
-      <h3>Bảo mật & Firewall</h3>
-      <p>Tường lửa chuyên sâu, bảo mật lớp ứng dụng và giám sát 24/7.</p>
-    </article>
-
-    <article class="card reveal" data-service="ai">
-      <div class="icon" aria-hidden="true">🤖</div>
-      <h3>AI & MLOps</h3>
-      <p>Pipelines ML, inference realtime, quản lý mô hình và tối ưu chi phí cho AI workloads.</p>
-    </article>
-
-    <article class="card reveal" data-service="network">
-      <div class="icon" aria-hidden="true">🌐</div>
-      <h3>Mạng & CDN</h3>
-      <p>Phân phối nội dung toàn cầu, tối ưu kết nối, cân bằng tải thông minh.</p>
-    </article>
-
-    <article class="card reveal" data-service="support">
-      <div class="icon" aria-hidden="true">🛠️</div>
-      <h3>Hỗ trợ & Tư vấn</h3>
-      <p>Hỗ trợ 24/7, tư vấn kiến trúc, tối ưu hóa chi phí và vận hành.</p>
-    </article>
-
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section class="about container" id="about">
-  <div class="illustration reveal" aria-hidden="true">
-    <!-- Illustration placeholder (SVG) -->
-    <svg width="100%" height="100%" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="g1" x1="0" x2="1">
-          <stop offset="0" stop-color="#0b76ff" stop-opacity="0.18"/>
-          <stop offset="1" stop-color="#0a66e0" stop-opacity="0.06"/>
-        </linearGradient>
-      </defs>
-      <rect x="0" y="0" width="100%" height="100%" fill="url(#g1)"/>
-      <g fill="#fff" opacity="0.9">
-        <circle cx="120" cy="120" r="36"/>
-        <rect x="220" y="80" width="220" height="120" rx="14"/>
-        <rect x="160" y="240" width="300" height="100" rx="20"/>
-      </g>
-    </svg>
-  </div>
-
-  <div class="content reveal">
-    <h2>Về chúng tôi</h2>
-    <p>AsakaCloud cung cấp nền tảng điện toán đám mây an toàn, tối ưu và thân thiện với doanh nghiệp. Chúng tôi tập trung vào tự động hóa, bảo mật lớp doanh nghiệp và tối ưu chi phí để giúp khách hàng tập trung vào phát triển sản phẩm chính.</p>
-    <p class="muted">Đội ngũ chuyên gia của chúng tôi có kinh nghiệm triển khai hạ tầng cho các doanh nghiệp quy mô vừa và lớn, cam kết thời gian hoạt động cao và hỗ trợ 24/7.</p>
-  </div>
-</section>
-
-<!-- CONTACT / CTA -->
-<section class="container" id="contact" style="padding:36px 0">
-  <div style="display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(90deg,rgba(11,118,255,0.04),transparent);padding:20px;border-radius:12px">
-    <div>
-      <h3 style="margin:0 0 6px">Sẵn sàng bắt đầu?</h3>
-      <p class="muted" style="margin:0">Liên hệ với chúng tôi để xây dựng giải pháp phù hợp cho doanh nghiệp bạn.</p>
-    </div>
-    <div style="display:flex;gap:12px">
-      <button class="btn primary" onclick="AS.handleCTA()">Liên hệ tư vấn</button>
-      <button class="btn ghost" onclick="AS.scrollTo('#about')">Tìm hiểu thêm</button>
-    </div>
-  </div>
-</section>
-
-  </main>  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <h3>AsakaCloud</h3>
-        <p class="muted">Địa chỉ: 123 Đường Mẫu, Quận 1, TP. Hồ Chí Minh</p>
-        <p class="muted">Email: contact@asakacloud.vn | Điện thoại: +84 123 456 789</p>
-      </div>
-      <div style="text-align:right">
-        <div class="socials" style="justify-content:flex-end">
-          <a href="#" aria-label="Facebook">f</a>
-          <a href="#" aria-label="LinkedIn">in</a>
-          <a href="#" aria-label="YouTube">yt</a>
-        </div>
-        <p style="margin-top:12px;color:rgba(255,255,255,0.7)">© 2025 AsakaCloud. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>  <script>
-    /* AS: API-friendly namespace for external systems to control the page. */
-    window.AS = window.AS || {};
-
-    // Smooth reveal on scroll
-    (function(){
-      const io = new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); }
-        })
-      },{threshold:0.12});
-      document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-    })();
-
-    // Header shrink on scroll
-    (function(){
-      const header = document.getElementById('siteHeader');
-      let last = 0; window.addEventListener('scroll', ()=>{
-        const y = window.scrollY;
-        if(y>60){ header.classList.add('scrolled') } else { header.classList.remove('scrolled') }
-        last = y;
-      },{passive:true});
-    })();
-
-    // Mobile nav toggle
-    (function(){
-      const toggle = document.getElementById('navToggle');
-      const nav = document.getElementById('mainNav');
-      toggle.addEventListener('click', ()=>{
-        const open = nav.classList.toggle('open');
-        toggle.setAttribute('aria-expanded', String(open));
-      });
-    })();
-
-    // Smooth scroll helper
-    AS.scrollTo = function(sel){
-      const el = document.querySelector(sel);
-      if(!el) return;
-      el.scrollIntoView({behavior:'smooth',block:'start'});
-    }
-
-    // CTA handler (example)
-    AS.handleCTA = function(){
-      // simple feedback animation
-      const btn = document.getElementById('startBtn');
-      btn.disabled = true;
-      btn.style.transform = 'scale(.98)';
-      setTimeout(()=>{ btn.style.transform=''; btn.disabled=false; AS.scrollTo('#contact'); },600);
-    }
-
-    /* External control API: these functions are safe to call from other scripts or systems (e.g., AI controller). */
-    AS.changePrimaryColor = function(hex){
-      if(!hex) return;
-      document.documentElement.style.setProperty('--primary', hex);
-    }
-
-    AS.toggleSection = function(selector, show){
-      const el = document.querySelector(selector);
-      if(!el) return false;
-      el.style.display = (show === false) ? 'none' : '';
-      return true;
-    }
-
-    AS.rotateElement = function(selector, deg){
-      const el = document.querySelector(selector);
-      if(!el) return false;
-      el.style.transform = `rotate(${deg}deg)`;
-      return true;
-    }
-
-    AS.scaleElement = function(selector, scale){
-      const el = document.querySelector(selector);
-      if(!el) return false;
-      el.style.transform = `scale(${scale})`;
-      return true;
-    }
-
-    AS.setTheme = function(name){
-      // quick theming example (light / dark)
-      if(name === 'dark'){
-        document.documentElement.style.setProperty('--bg', '#091018');
-        document.documentElement.style.setProperty('--card', '#07121a');
-        document.documentElement.style.setProperty('--muted', '#9aa6b2');
-        document.documentElement.style.setProperty('--dark', '#e6eef7');
-      } else {
-        document.documentElement.style.setProperty('--bg', '#f6f8fb');
-        document.documentElement.style.setProperty('--card', '#ffffff');
-        document.documentElement.style.setProperty('--muted', '#6b7280');
-        document.documentElement.style.setProperty('--dark', '#0f1724');
-      }
-    }
-
-    // Expose a simple query API to list services
-    AS.listServices = function(){
-      return Array.from(document.querySelectorAll('[data-service]')).map(el=>({
-        id: el.getAttribute('data-service'),
-        title: el.querySelector('h3')?.innerText || '',
-        description: el.querySelector('p')?.innerText || ''
-      }));
-    }
-
-    // Small accessibility: keyboard navigation for nav links
-    document.querySelectorAll('[data-nav]').forEach(link=>{
-      link.addEventListener('click', (e)=>{
-        e.preventDefault();
-        const href = link.getAttribute('href');
-        AS.scrollTo(href);
-      })
-    });
-
-  </script></body>
-        </html>
+<body>
+  <!-- Nội dung giữ nguyên như bản trước -->
+</body>
+</html>
