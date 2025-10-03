@@ -1,88 +1,444 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AsakaCloud - Giải pháp Cloud hiện đại</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="script.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AsakaCloud — Hosting & Game Servers</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ========== VARIABLES ========== */
+    :root{
+      --bg: #0f1724;
+      --panel: #0b1220;
+      --soft: #0f253f;
+      --muted: #9fb0d0;
+      --accent1: #007BFF;
+      --accent2: #8A2BE2;
+      --glass: rgba(255,255,255,0.04);
+      --radius: 16px;
+      --shadow-lg: 0 10px 30px rgba(2,6,23,0.6);
+      --container: 1150px;
+      --ease: cubic-bezier(.2,.9,.3,1);
+      color-scheme: dark;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    /* Light theme overrides (JS toggles .light on body) */
+    body.light{
+      --bg: #ffffff;
+      --panel: #ffffff;
+      --soft: #f5f7fb;
+      --muted: #475569;
+      --glass: rgba(2,6,23,0.02);
+      color-scheme: light;
+    }
+
+    /* Reset */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 500px at 10% 10%, rgba(10,140,255,0.06), transparent),
+                  radial-gradient(800px 400px at 90% 90%, rgba(138,43,226,0.05), transparent),
+                  var(--bg);
+      color: white;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      transition: background .45s var(--ease), color .3s var(--ease);
+    }
+
+    .container{max-width:var(--container);margin:0 auto;padding:28px;}
+
+    /* Header */
+    header.site-header{
+      position:sticky;top:12px;z-index:60;
+      padding:10px 18px;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.06));
+      border-radius: 12px;
+      margin: 12px;
+      box-shadow: 0 6px 20px rgba(2,6,23,0.45);
+    }
+    .header-inner{display:flex;align-items:center;gap:20px;justify-content:space-between;}
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo svg{width:44px;height:44px;flex-shrink:0}
+    .brand{font-family:'Poppins',sans-serif;font-weight:600;font-size:18px;letter-spacing:0.2px}
+    nav.main-nav{display:flex;gap:14px;align-items:center}
+    nav.main-nav a{color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:10px;font-weight:500;font-size:14px;transition:all .22s var(--ease)}
+    nav.main-nav a:hover{color:var(--accent1);transform:translateY(-2px);text-decoration:underline}
+    .header-cta{display:flex;gap:12px;align-items:center}
+    .btn{
+      border:0;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;transition:transform .18s var(--ease),box-shadow .18s var(--ease);
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:white;box-shadow: 0 10px 30px rgba(10,81,255,0.12);
+    }
+    .btn.ghost{
+      background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)
+    }
+    .icon-btn{background:var(--glass);padding:8px;border-radius:10px}
+
+    /* HERO */
+    .hero{
+      padding:48px 0 28px;
+      margin: 12px;
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      box-shadow: var(--shadow-lg);
+      overflow:hidden;
+    }
+    .hero-inner{display:flex;gap:28px;align-items:center;justify-content:space-between;flex-wrap:wrap;max-width:var(--container);margin:0 auto;padding:36px}
+    .hero-text{flex:1;min-width:300px}
+    .eyebrow{display:inline-block;background:linear-gradient(90deg,var(--accent1),var(--accent2));padding:6px 10px;border-radius:999px;font-weight:600;font-size:13px;color:white;margin-bottom:14px}
+    .hero-title{font-family:'Poppins',sans-serif;font-size:42px;line-height:1.02;margin:6px 0 14px;color:linear-gradient(90deg,#fff,#ddd);letter-spacing:-0.3px}
+    .typewriter{display:inline-block;color:var(--accent1)}
+    .hero-desc{color:var(--muted);max-width:64ch;margin-bottom:20px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .hero-svg-wrap{flex:0 0 420px;min-width:280px;display:flex;justify-content:center;align-items:center;pointer-events:none;opacity:.98}
+
+    /* Cards / Services */
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:22px}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 8px 24px rgba(2,6,23,0.4);
+      transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+      transform-origin:center;
+      overflow:hidden;
+    }
+    .card:hover{transform:translateY(-10px) scale(1.02);box-shadow: 0 20px 50px rgba(2,6,23,0.6)}
+    .card .icon{font-size:28px;background:linear-gradient(90deg,var(--accent1),var(--accent2));width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(10,81,255,0.08);margin-bottom:12px}
+    .card h3{margin:6px 0 8px}
+    .card p{color:var(--muted);margin:0 0 12px}
+
+    /* Feature grid */
+    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:18px}
+    .feature{background:var(--soft);border-radius:12px;padding:14px;color:var(--muted);transition:transform .22s var(--ease)}
+    .feature:hover{transform:translateY(-6px)}
+
+    /* Reviews */
+    .reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:18px}
+    .review{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03)}
+
+    /* Signup */
+    .signup{margin-top:22px;padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+    .signup form{flex:1;min-width:240px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+    .signup input{padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+    .form-msg{grid-column:1/-1;color:var(--accent2);font-weight:600}
+
+    /* Pricing */
+    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px}
+    .price-card{padding:20px;border-radius:14px;text-align:center;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+    .price-card.recommended{box-shadow:0 20px 50px rgba(138,43,226,0.08);transform:scale(1.03)}
+
+    /* Footer */
+    footer.site-footer{padding:28px;margin:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}
+
+    /* Utility */
+    .muted{color:var(--muted)}
+    a{color:inherit}
+    /* Animations: fade-up used by JS IntersectionObserver */
+    .fade-up{opacity:0;transform:translateY(18px) scale(.995);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+    .fade-up.in-view{opacity:1;transform:translateY(0) scale(1)}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero-inner{padding:18px}
+      nav.main-nav{display:none}
+      header.site-header{padding:12px}
+      .hero-title{font-size:28px}
+      .hero-svg-wrap{flex-basis:100%;order:2}
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none !important}
+    }
+  </style>
 </head>
-<body>
-  <header>
-    <nav class="navbar">
-      <div class="logo">
-        <img src="logo.svg" alt="AsakaCloud Logo" />
-        <span>AsakaCloud</span>
+<body class="dark">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner container" role="banner">
+      <div class="logo" aria-hidden="false">
+        <!-- Inline SVG logo (rounded) -->
+        <svg viewBox="0 0 24 24" aria-hidden="true" role="img">
+          <rect width="24" height="24" rx="6" fill="#0b1220"></rect>
+          <path d="M6 12h12M6 8h12M6 16h8" stroke="url(#g)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+          <defs>
+            <linearGradient id="g" x1="0" x2="1">
+              <stop offset="0" stop-color="#007BFF"/>
+              <stop offset="1" stop-color="#8A2BE2"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div>
+          <div class="brand">AsakaCloud<span style="color:var(--accent2)">.vn</span></div>
+          <div style="font-size:12px;color:var(--muted)">Hosting • VPS • Game Servers</div>
+        </div>
       </div>
-      <ul class="nav-links">
-        <li><a href="#services">Dịch vụ</a></li>
-        <li><a href="#features">Tính năng</a></li>
-        <li><a href="#pricing">Bảng giá</a></li>
-        <li><a href="#contact">Liên hệ</a></li>
-      </ul>
-      <button class="dark-toggle">🌙</button>
-    </nav>
+
+      <nav class="main-nav" role="navigation" aria-label="Main">
+        <a href="#services">Dịch vụ</a>
+        <a href="#features">Tính năng</a>
+        <a href="#community">Cộng đồng</a>
+        <a href="#pricing">Giá</a>
+      </nav>
+
+      <div class="header-cta" role="toolbar" aria-label="Actions">
+        <button id="darkToggle" class="btn icon-btn" aria-pressed="false" title="Chuyển nền">🌙</button>
+        <a href="#signup" class="btn primary" role="button">Bắt đầu</a>
+      </div>
+    </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Hạ tầng Cloud hiện đại & an toàn</h1>
-      <p>AsakaCloud mang đến giải pháp tối ưu cho doanh nghiệp Việt Nam.</p>
-      <a href="#pricing" class="btn-primary">Bắt đầu ngay</a>
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="eyebrow">Máy chủ game & hosting</div>
+        <h1 class="hero-title">
+          Hạ tầng nhanh — Bảo mật cao — Tối ưu cho game
+          <div style="height:6px"></div>
+          <span class="typewriter" id="typewriter"></span>
+        </h1>
+        <p class="hero-desc muted">Khởi tạo server trong <strong>30 giây</strong>. Bảo vệ DDoS Layer 4/7, backup 1-click, cài mod/plugin dễ dàng và hỗ trợ 24/7 qua Discord.</p>
+
+        <div class="hero-actions" role="group" aria-label="Primary actions">
+          <a class="btn primary" href="#pricing">Xem gói &amp; Đăng ký</a>
+          <button class="btn ghost" id="demoBtn">Xem demo →</button>
+        </div>
+
+        <!-- quick cards -->
+        <div class="cards fade-up" style="margin-top:18px" id="quickCards">
+          <div class="card">
+            <div class="icon">⚡</div>
+            <h3>Khởi tạo 30s</h3>
+            <p class="muted">Templates sẵn để deploy server ngay.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🛡️</div>
+            <h3>DDoS Protection</h3>
+            <p class="muted">XDP Filter Layer 4/7, uptime ổn định.</p>
+          </div>
+          <div class="card">
+            <div class="icon">💾</div>
+            <h3>Backup 1-click</h3>
+            <p class="muted">Sao lưu tự động, khôi phục nhanh.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-svg-wrap" aria-hidden="true">
+        <!-- decorative animated SVG clouds & server -->
+        <svg width="420" height="300" viewBox="0 0 420 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg" x1="0" x2="1">
+              <stop offset="0" stop-color="#007BFF"/>
+              <stop offset="1" stop-color="#8A2BE2"/>
+            </linearGradient>
+          </defs>
+          <rect x="20" y="40" width="380" height="200" rx="20" fill="url(#lg)" opacity="0.07"/>
+          <g transform="translate(48,64)">
+            <rect x="0" y="0" width="160" height="120" rx="12" fill="#071026" stroke="rgba(255,255,255,0.04)"/>
+            <rect x="176" y="0" width="160" height="120" rx="12" fill="#071026" stroke="rgba(255,255,255,0.04)"/>
+            <circle cx="80" cy="60" r="26" fill="#007BFF" opacity="0.95">
+              <animate attributeName="r" values="26;30;26" dur="4s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="296" cy="60" r="26" fill="#8A2BE2" opacity="0.95">
+              <animate attributeName="r" values="26;22;26" dur="4s" repeatCount="indefinite" />
+            </circle>
+          </g>
+          <!-- floating cloud -->
+          <g transform="translate(40,14)" opacity="0.9">
+            <ellipse cx="140" cy="20" rx="36" ry="14" fill="rgba(255,255,255,0.04)">
+              <animateTransform attributeName="transform" attributeType="XML" type="translate" values="0 0; 8 0; 0 0" dur="6s" repeatCount="indefinite"/>
+            </ellipse>
+          </g>
+        </svg>
+      </div>
     </div>
   </section>
 
-  <section id="services" class="section">
-    <h2>Dịch vụ</h2>
-    <div class="cards">
-      <div class="card">🌐 Web Hosting</div>
-      <div class="card">💾 Cloud Storage</div>
-      <div class="card">🛡️ Security</div>
-    </div>
-  </section>
+  <!-- Features -->
+  <main class="container" id="main">
+    <section id="services" class="fade-up">
+      <h2 style="font-family:'Poppins',sans-serif">Dịch vụ của chúng tôi</h2>
+      <p class="muted">Server game, VPS, Dedicated, Web hosting và hỗ trợ mod/plugin.</p>
 
-  <section id="features" class="section">
-    <h2>Tính năng nổi bật</h2>
-    <ul>
-      <li>⚡ Hiệu năng cao</li>
-      <li>🔒 Bảo mật chuẩn quốc tế</li>
-      <li>☁️ Mở rộng linh hoạt</li>
-    </ul>
-  </section>
-
-  <section id="pricing" class="section">
-    <h2>Bảng giá</h2>
-    <div class="cards">
-      <div class="card">
-        <h3>Basic</h3>
-        <p>99.000đ/tháng</p>
-        <button class="btn-secondary">Đăng ký</button>
+      <div class="feature-grid" style="margin-top:12px">
+        <div class="feature">
+          <strong>1-click Mods</strong>
+          <div class="muted" style="font-size:13px;margin-top:6px">Forge • Fabric • Paper</div>
+        </div>
+        <div class="feature">
+          <strong>Network 40Gbps</strong>
+          <div class="muted" style="font-size:13px;margin-top:6px">Băng thông lớn, latency thấp</div>
+        </div>
+        <div class="feature">
+          <strong>Hardware ECC</strong>
+          <div class="muted" style="font-size:13px;margin-top:6px">DDR4 ECC • NVMe SSD</div>
+        </div>
+        <div class="feature">
+          <strong>Support 24/7</strong>
+          <div class="muted" style="font-size:13px;margin-top:6px">Discord & Ticket, phản hồi nhanh</div>
+        </div>
       </div>
-      <div class="card">
-        <h3>Pro</h3>
-        <p>199.000đ/tháng</p>
-        <button class="btn-secondary">Đăng ký</button>
-      </div>
-      <div class="card">
-        <h3>Enterprise</h3>
-        <p>499.000đ/tháng</p>
-        <button class="btn-secondary">Đăng ký</button>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="contact" class="section">
-    <h2>Liên hệ</h2>
-    <form id="contactForm">
-      <input type="text" placeholder="Họ và tên" required />
-      <input type="email" placeholder="Email" required />
-      <textarea placeholder="Nội dung" required></textarea>
-      <button type="submit" class="btn-primary">Gửi</button>
-    </form>
-  </section>
+    <!-- Community / Reviews -->
+    <section id="community" class="fade-up" style="margin-top:22px">
+      <h2 style="font-family:'Poppins',sans-serif">Cộng đồng nói gì</h2>
+      <div class="reviews">
+        <div class="review">
+          <p>“Host mạnh và rất ổn — uptime tốt, support nhiệt tình.”</p>
+          <div class="muted" style="margin-top:8px">— Long, owner server</div>
+        </div>
+        <div class="review">
+          <p>“Giá hợp lý, deploy nhanh — recommend!”</p>
+          <div class="muted" style="margin-top:8px">— Linh, gamer</div>
+        </div>
+      </div>
+    </section>
 
-  <footer>
-    <p>© 2025 AsakaCloud. All rights reserved.</p>
-  </footer>
-</body>
-</html>
+    <!-- Signup -->
+    <section id="signup" class="fade-up" style="margin-top:22px">
+      <div class="signup" role="region" aria-label="Signup">
+        <div style="flex:1">
+          <h3 style="margin:0 0 8px">Tạo tài khoản nhanh</h3>
+          <p class="muted" style="margin:0 0 12px">Nhận 7 ngày dùng thử miễn phí — không cần thẻ.</p>
+          <div class="pricing-grid">
+            <div class="price-card">
+              <strong>Starter</strong>
+              <div style="font-size:18px;margin:8px 0">₫49,000<span class="muted" style="font-size:12px">/tháng</span></div>
+              <p class="muted" style="margin:6px 0">1 vCPU • 2GB RAM • 20GB NVMe</p>
+              <button class="btn primary">Chọn</button>
+            </div>
+            <div class="price-card recommended">
+              <strong>Pro</strong>
+              <div style="font-size:18px;margin:8px 0">₫149,000<span class="muted" style="font-size:12px">/tháng</span></div>
+              <p class="muted" style="margin:6px 0">4 vCPU • 8GB RAM • 100GB NVMe</p>
+              <button class="btn primary">Chọn</button>
+            </div>
+            <div class="price-card">
+              <strong>Enterprise</strong>
+              <div style="font-size:18px;margin:8px 0">Liên hệ</div>
+              <p class="muted" style="margin:6px 0">Dedicated • Custom</p>
+              <button class="btn ghost">Liên hệ</button>
+            </div>
+          </div>
+        </div>
+
+        <form id="signupForm" style="min-width:260px;max-width:420px">
+          <input type="email" name="email" placeholder="Email của bạn" required aria-label="Email" />
+          <input type="password" name="password" placeholder="Mật khẩu (ít nhất 8 ký tự)" minlength="8" required aria-label="Mật khẩu" />
+          <div style="display:flex;gap:8px;margin-top:6px">
+            <button type="submit" class="btn primary" style="flex:1">Tạo tài khoản</button>
+            <button type="reset" class="btn ghost" style="flex:1">Làm lại</button>
+          </div>
+          <div id="formMsg" class="form-msg" role="status" aria-live="polite" style="margin-top:8px"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+      <div>
+        <strong>AsakaCloud.vn</strong><div class="muted" style="font-size:13px">Hosting & Game Servers • © 2025</div>
+      </div>
+      <div class="muted" style="font-size:13px">Discord • Facebook • Twitter</div>
+    </footer>
+  </main>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // ===== Dark / Light Toggle (stores preference) =====
+    (function(){
+      const body = document.body;
+      const toggle = document.getElementById('darkToggle');
+      const saved = localStorage.getItem('asaka_theme');
+      if(saved === 'light') body.classList.add('light');
+      else body.classList.remove('light');
+
+      function updateBtn(){
+        toggle.textContent = body.classList.contains('light') ? '☀️' : '🌙';
+        toggle.setAttribute('aria-pressed', body.classList.contains('light'));
+      }
+      updateBtn();
+
+      toggle.addEventListener('click', ()=>{
+        body.classList.toggle('light');
+        localStorage.setItem('asaka_theme', body.classList.contains('light') ? 'light' : 'dark');
+        updateBtn();
+      });
+    })();
+
+    // ===== Typewriter effect (simple rotating words) =====
+    (function(){
+      const el = document.getElementById('typewriter');
+      const words = ['Server mạnh mẽ.', 'Latency thấp.', 'Hỗ trợ 24/7.', 'Cài mod 1-click.'];
+      let w = 0, i = 0, forward = true, interval = 90;
+      function tick(){
+        const word = words[w];
+        if(forward){
+          i++;
+          el.textContent = word.slice(0,i);
+          if(i === word.length){ forward=false; setTimeout(tick,900); return; }
+        } else {
+          i--;
+          el.textContent = word.slice(0,i);
+          if(i === 0){ forward=true; w=(w+1)%words.length; setTimeout(tick,220); return; }
+        }
+        setTimeout(tick, interval);
+      }
+      tick();
+    })();
+
+    // ===== IntersectionObserver Fade-up animation =====
+    (function(){
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting) e.target.classList.add('in-view');
+        });
+      }, {threshold:0.12});
+      document.querySelectorAll('.fade-up').forEach(el=>{
+        el.classList.add('fade-up');
+        obs.observe(el);
+      });
+    })();
+
+    // ===== Form validation & demo response =====
+    (function(){
+      const form = document.getElementById('signupForm');
+      const msg = document.getElementById('formMsg');
+      form.addEventListener('submit', (ev)=>{
+        ev.preventDefault();
+        const fd = new FormData(form);
+        const email = (fd.get('email')||'').trim();
+        const pw = (fd.get('password')||'').trim();
+        if(!email || !email.includes('@')) { msg.textContent = 'Email không hợp lệ.'; return; }
+        if(pw.length < 8){ msg.textContent = 'Mật khẩu phải ít nhất 8 ký tự.'; return; }
+        // demo success
+        msg.style.color = 'var(--accent1)';
+        msg.textContent = 'Đăng ký thành công — Kiểm tra email để xác thực (demo).';
+        form.reset();
+        setTimeout(()=>{ msg.textContent=''; }, 5000);
+      });
+    })();
+
+    // ===== Micro interaction: demo button opens quick modal (light) =====
+    (function(){
+      const btn = document.getElementById('demoBtn');
+      btn.addEventListener('click', ()=>{
+        // small toast
+        const t = document.createElement('div');
+        t.textContent = 'Mở demo (tạm) — push lên GitHub để xem đầy đủ.';
+        Object.assign(t.style,{position:'fixed',right:'18px',bottom:'18px',background:'linear-gradient(90deg,var(--accent1),var(--accent2))',color:'#fff',padding:'12px 16px',borderRadius:'12px',boxShadow:'0 10px 30px rgba(2,6,23,0.6)',zIndex:120});
+        document.body.appendChild(t);
+        setTimeout(()
