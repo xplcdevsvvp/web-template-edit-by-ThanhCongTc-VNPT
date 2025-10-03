@@ -1,0 +1,94 @@
+:root {
+  --bg: #ffffff;
+  --text: #222;
+  --primary: #2563eb;
+  --secondary: #1e293b;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+header {
+  background: var(--secondary);
+  color: #fff;
+  padding: 1rem;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+}
+
+.section {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.cards {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #f1f5f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  min-width: 200px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #475569;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+footer {
+  background: var(--secondary);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Dark mode */
+body.dark {
+  --bg: #0f172a;
+  --text: #e2e8f0;
+}
