@@ -1,0 +1,28 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="container site-footer__inner">
+    <div class="site-footer__col">
+      <a class="brand brand--footer" href="/public/index.html">AsakaCloud</a>
+      <p class="site-footer__note">Small visual sandbox for testing fonts.</p>
+    </div>
+    <div class="site-footer__col">
+      <h4>Company</h4>
+      <ul class="footer-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="site-footer__col">
+      <h4>Help</h4>
+      <ul class="footer-links">
+        <li><a href="#">Support</a></li>
+        <li><a href="#">Docs</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="site-footer__bar">
+    <div class="container">© <span id="year"></span> AsakaCloud — mock project</div>
+  </div>
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
