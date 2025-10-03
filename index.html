@@ -1,116 +1,305 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AsakaCloud – Typography sandbox (mock)</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chỉ Cloud Hosting</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: #000;
+      color: white;
+      overflow-x: hidden;
+    }
 
-  <!-- Preload primary font -->
-  <link rel="preload" href="/public/assets/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/src/css/fonts.css">
-  <link rel="stylesheet" href="/src/css/styles.css">
-  <script defer src="/src/js/app.js"></script>
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      background: rgba(15, 15, 15, 0.6);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 25px rgba(0,255,255,0.3);
+      z-index: 1000;
+      animation: fadeDown 1s ease;
+    }
+
+    .navbar .logo {
+      color: #00ffff;
+      font-size: 20px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+    }
+
+    .navbar nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .navbar nav a:hover {
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    @keyframes fadeDown {
+      from { transform: translate(-50%, -40px); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    /* Hero */
+    .hero {
+      padding: 160px 20px 80px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 40px;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg,#00ffff,#ff00ff,#00ffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 300% 300%;
+      animation: gradientMove 6s ease infinite;
+      text-shadow: 0 0 15px rgba(0,255,255,0.6);
+    }
+
+    .hero p {
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: #ccc;
+    }
+
+    .button {
+      background: linear-gradient(90deg, #ff00cc, #3333ff, #00ffff);
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      animation: gradientMove 5s ease infinite;
+      background-size: 300% 300%;
+      box-shadow: 0 0 15px #00ffff;
+      transition: transform 0.3s ease, box-shadow 0.3s;
+    }
+
+    .button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px #00ffff, 0 0 40px #ff00cc;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Features Section */
+    section {
+      padding: 80px 20px;
+    }
+
+    section h2 {
+      font-size: 28px;
+      color: #00ffff;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+    }
+
+    section p.section-desc {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      color: #bbb;
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      max-width: 1100px;
+      margin: 0 auto 40px;
+    }
+
+    .card {
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 18px;
+      background: rgba(20,20,20,0.7);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 15px rgba(0,255,255,0.15);
+      padding: 20px;
+      transition: 0.4s;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-6px) scale(1.05);
+      box-shadow: 0 0 20px #00ffff, 0 0 40px #ff00cc;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    /* Server Quality Box */
+    .server-box {
+      max-width: 1000px;
+      margin: 0 auto 50px;
+      border-radius: 18px;
+      background: rgba(25,25,25,0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 24px;
+      box-shadow: 0 0 15px rgba(0,255,255,0.15);
+    }
+
+    .server-box h4 {
+      margin-bottom: 15px;
+      color: #00ffff;
+    }
+
+    .server-box ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px;
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    /* Image Section */
+    .feature-img {
+      max-width: 1000px;
+      margin: 0 auto;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0,255,255,0.2);
+    }
+
+    .feature-img img {
+      width: 100%;
+      display: block;
+    }
+
+    /* Footer */
+    footer {
+      background: #000;
+      color: #888;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Fade-in Animation on Scroll */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
-<body class="page">
-  <!-- header -->
-  <div data-include="components/header.html"></div>
+<body>
 
-  <main class="container">
-    <section class="hero hero--large" aria-labelledby="hero-title">
-      <div class="hero__inner">
-        <h1 id="hero-title" class="hero__title">Cloud-native hosting with clear typography</h1>
-        <p class="hero__lead">A compact visual playground for testing fonts, hierarchy and UI states.</p>
-        <div class="hero__ctas">
-          <a class="btn btn--primary btn--lg" href="/public/pages/product.html">Start free trial</a>
-          <a class="btn btn--ghost" href="/public/pages/product.html">View pricing</a>
-        </div>
-      </div>
-      <div class="hero__media">
-        <img src="/public/assets/images/placeholder-hero.jpg" alt="" aria-hidden="true">
-      </div>
-    </section>
-
-    <section class="cards" aria-label="features">
-      <div class="grid grid--3">
-        <article class="card card--feature">
-          <h3 class="card__title">Fast Font Loading</h3>
-          <p class="card__desc">Preload, swap, and measure FOIT/FOUT with test harness.</p>
-        </article>
-        <article class="card card--feature">
-          <h3 class="card__title">Responsive Type</h3>
-          <p class="card__desc">Clamp-based scale for H1–H4 and fluid body text.</p>
-        </article>
-        <article class="card card--feature">
-          <h3 class="card__title">Accessible UI</h3>
-          <p class="card__desc">Keyboard navigable, ARIA attributes and contrast helper.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="pricing" aria-labelledby="pricing-heading">
-      <h2 id="pricing-heading" class="pricing__title">Pricing</h2>
-      <div class="grid grid--3">
-        <div class="pricing__card">
-          <h3 class="pricing__name">Starter</h3>
-          <div class="pricing__amount">Free</div>
-          <ul class="pricing__list">
-            <li>1 site</li>
-            <li>Community support</li>
-          </ul>
-          <a class="btn btn--secondary" href="#">Choose</a>
-        </div>
-        <div class="pricing__card pricing__card--featured" aria-label="recommended">
-          <h3 class="pricing__name">Pro</h3>
-          <div class="pricing__amount">\$19/mo</div>
-          <ul class="pricing__list">
-            <li>Multiple sites</li>
-            <li>Email support</li>
-          </ul>
-          <a class="btn btn--primary" href="#">Choose</a>
-        </div>
-        <div class="pricing__card">
-          <h3 class="pricing__name">Enterprise</h3>
-          <div class="pricing__amount">Contact</div>
-          <ul class="pricing__list">
-            <li>Custom SLA</li>
-            <li>24/7 support</li>
-          </ul>
-          <a class="btn btn--ghost" href="#">Contact</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="typography-demo" aria-label="typography demo">
-      <h2 class="typography-demo__title">Typography scale</h2>
-      <div class="typography-demo__list">
-        <h1 class="type-scale type-scale--h1">H1 — The quick brown fox jumps over the lazy dog</h1>
-        <h2 class="type-scale type-scale--h2">H2 — The quick brown fox jumps over the lazy dog</h2>
-        <h3 class="type-scale type-scale--h3">H3 — The quick brown fox jumps over the lazy dog</h3>
-        <h4 class="type-scale type-scale--h4">H4 — The quick brown fox jumps over the lazy dog</h4>
-        <p class="type-scale type-scale--body">Body — The quick brown fox jumps over the lazy dog. Line-height and measure optimized.</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- footer -->
-  <div data-include="components/footer.html"></div>
-
-  <!-- contrast helper -->
-  <div id="contrast-helper" class="contrast-helper" aria-hidden="false">
-    <strong>Contrast</strong>: <span id="contrast-value">—</span>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo">Chỉ Cloud</div>
+    <nav>
+      <a href="#">Trang chủ</a>
+      <a href="#">Dịch vụ</a>
+      <a href="#">Hỗ trợ</a>
+      <a href="#">Đăng nhập</a>
+      <a href="#">Đăng ký</a>
+    </nav>
   </div>
 
+  <!-- Hero -->
+  <div class="hero fade-in">
+    <h1>Hosting & Cloud Gaming</h1>
+    <p>Giải pháp máy chủ mạnh mẽ, tốc độ cao, bảo mật tối ưu dành cho cộng đồng game & doanh nghiệp.</p>
+    <button class="button">Xem dịch vụ</button>
+  </div>
+
+  <!-- Features -->
+  <section id="features" class="fade-in">
+    <h2>Phần cứng chất lượng cao</h2>
+    <p class="section-desc">Máy chủ của chúng tôi được xây dựng trên nền tảng phần cứng enterprise hàng đầu, đảm bảo hiệu năng ổn định và độ tin cậy tuyệt đối cho mọi máy chủ.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>🖥️ CPU Server CLC</h3>
+        <p>Intel® Xeon® Gold series & AMD® Ryzen™ 9000 series – hiệu năng vượt trội.</p>
+      </div>
+      <div class="card">
+        <h3>💾 RAM DDR4 ECC</h3>
+        <p>Bộ nhớ ECC hạn chế lỗi, tăng độ ổn định hệ thống.</p>
+      </div>
+      <div class="card">
+        <h3>⚡ SSD NVMe</h3>
+        <p>Tốc độ truy xuất dữ liệu cực nhanh, giảm lag & lỗi đĩa.</p>
+      </div>
+      <div class="card">
+        <h3>🌐 Port 40Gbps</h3>
+        <p>Kết nối mạng cực cao, ping thấp, trải nghiệm mượt mà.</p>
+      </div>
+    </div>
+
+    <div class="server-box">
+      <h4>Server chất lượng cao</h4>
+      <ul>
+        <li>• Datacenter FPT/CMC/VNPT</li>
+        <li>• Bảo vệ RAID phần cứng</li>
+        <li>• Nguồn điện dự phòng</li>
+        <li>• Giám sát phần cứng 24/7</li>
+      </ul>
+    </div>
+
+    <div class="feature-img">
+      <img src="https://i.imgur.com/DgGZpL1.jpeg" alt="AMD EPYC">
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Chỉ Cloud | Thiết kế bởi Chỉ 💙
+  </footer>
+
   <script>
-    // client-side include simple loader for the small static demo
-    (function loadIncludes() {
-      document.querySelectorAll('[data-include]').forEach(async el => {
-        const path = el.getAttribute('data-include');
-        try {
-          const res = await fetch('/public/' + path);
-          if (res.ok) el.innerHTML = await res.text();
-        } catch (e) { /* ignore */ }
+    // Scroll animation
+    const faders = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
       });
-    })();
+    }, { threshold: 0.2 });
+
+    faders.forEach(fader => observer.observe(fader));
   </script>
 </body>
 </html>
