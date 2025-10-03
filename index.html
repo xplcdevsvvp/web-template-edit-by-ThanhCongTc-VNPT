@@ -1,104 +1,88 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AsakaCloud — Giải pháp điện toán đám mây toàn diện</title>
-  <meta name="description" content="Giao diện mẫu AsakaCloud — giải pháp điện toán đám mây toàn diện. HTML/CSS/JS thuần, responsive và dễ tích hợp với hệ thống AI khác.">  <!-- Google Fonts (Roboto) -->  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">  <style>
-    :root{
-      --primary: #0b76ff;
-      --primary-600: #0a66e0;
-      --bg: #0a0f17; /* nền đen đẹp */
-      --card: #111827; /* khối đen đậm */
-      --muted: #9ca3af;
-      --dark: #f9fafb;
-      --glass: rgba(255,255,255,0.08);
-      --radius: 12px;
-      --transition: 200ms cubic-bezier(.2,.9,.2,1);
-      --max-width: 1200px;
-      --shadow: 0 6px 18px rgba(0,0,0,0.5);
-      font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background: var(--bg);
-      color:var(--dark);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.5;
-      font-size:16px;
-    }
-
-    .container{max-width:var(--max-width);margin:0 auto;padding:0 20px}
-
-    header.site-header{
-      position:sticky;top:0;z-index:80;
-      backdrop-filter: blur(6px);
-      transition: background var(--transition), padding var(--transition), box-shadow var(--transition);
-      padding:18px 0;
-      background:rgba(17,24,39,0.8);
-    }
-    header.site-header.scrolled{background:rgba(17,24,39,0.95);box-shadow:0 6px 18px rgba(0,0,0,0.7);padding:8px 0}
-
-    .site-header .nav-row{display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;gap:12px;align-items:center}
-    .brand .logo{width:44px;height:44px;border-radius:50%;display:inline-grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--primary-600));color:white;font-weight:700;font-size:18px;box-shadow:var(--shadow)}
-    .brand .title{font-weight:700;font-size:18px;color:white}
-
-    nav.site-nav{display:flex;gap:18px;align-items:center}
-    nav.site-nav a{color:var(--dark);text-decoration:none;padding:8px 10px;border-radius:8px;transition:all var(--transition);font-weight:500}
-    nav.site-nav a:hover{background:rgba(255,255,255,0.1);color:var(--primary)}
-
-    .nav-toggle{display:none;background:transparent;border:0;padding:8px;border-radius:8px;color:white}
-
-    .hero{min-height:74vh;display:grid;place-items:center;text-align:center;padding:80px 16px;background:radial-gradient(circle at top left, rgba(11,118,255,0.2), transparent), radial-gradient(circle at bottom right, rgba(11,118,255,0.1), transparent);position:relative;overflow:hidden}
-    .hero h1{font-size:clamp(28px,4.6vw,44px);margin:0 0 16px;font-weight:700;color:white;text-shadow:0 4px 16px rgba(0,0,0,0.6)}
-    .hero p.lead{margin:0 0 28px;color:var(--muted);font-size:1.05rem}
-
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:10px;border:0;cursor:pointer;transition:transform var(--transition), box-shadow var(--transition), background var(--transition);font-weight:600}
-    .btn.primary{background:linear-gradient(90deg,var(--primary),var(--primary-600));color:white;box-shadow:0 10px 30px rgba(11,118,255,0.2)}
-    .btn.primary:hover{transform:translateY(-4px)}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.2);color:white}
-
-    .services{padding:48px 0}
-    .services h2, .about h2{color:white}
-    .services .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-    .card{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);transition:transform 260ms cubic-bezier(.2,.9,.2,1),box-shadow var(--transition),border-color var(--transition);border:1px solid rgba(255,255,255,0.06)}
-    .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 18px 40px rgba(0,0,0,0.8);border-color:rgba(11,118,255,0.4)}
-    .card .icon{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(11,118,255,0.2),rgba(11,118,255,0.1));font-size:20px;color:white}
-    .card h3{margin:12px 0 6px;font-size:1.05rem;color:white}
-    .card p{margin:0;color:var(--muted);font-size:0.95rem}
-
-    .about{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;padding:48px 0}
-    .about p{color:var(--muted)}
-
-    footer.site-footer{background:#000;color:#fff;padding:30px 0;margin-top:36px}
-    footer a{color:inherit;text-decoration:none}
-    .socials{display:flex;gap:10px}
-    .socials a{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.1)}
-
-    .muted{color:var(--muted)}
-    .center{text-align:center}
-
-    @media (max-width:980px){
-      .services .grid{grid-template-columns:repeat(2,1fr)}
-      .about{grid-template-columns:1fr}
-    }
-    @media (max-width:680px){
-      .nav-toggle{display:inline-flex}
-      nav.site-nav{display:none;position:absolute;right:20px;top:64px;background:#111827;padding:12px;border-radius:12px;box-shadow:var(--shadow);flex-direction:column}
-      nav.site-nav.open{display:flex}
-      .services .grid{grid-template-columns:1fr}
-    }
-    .reveal{opacity:0;transform:translateY(12px);transition:opacity 600ms ease, transform 600ms ease}
-    .reveal.in-view{opacity:1;transform:none}
-    .btn:active{transform:translateY(1px) scale(.997)}
-  </style></head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AsakaCloud - Giải pháp Cloud hiện đại</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="script.js"></script>
+</head>
 <body>
-  <!-- Nội dung giữ nguyên như bản trước -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="logo.svg" alt="AsakaCloud Logo" />
+        <span>AsakaCloud</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#services">Dịch vụ</a></li>
+        <li><a href="#features">Tính năng</a></li>
+        <li><a href="#pricing">Bảng giá</a></li>
+        <li><a href="#contact">Liên hệ</a></li>
+      </ul>
+      <button class="dark-toggle">🌙</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Hạ tầng Cloud hiện đại & an toàn</h1>
+      <p>AsakaCloud mang đến giải pháp tối ưu cho doanh nghiệp Việt Nam.</p>
+      <a href="#pricing" class="btn-primary">Bắt đầu ngay</a>
+    </div>
+  </section>
+
+  <section id="services" class="section">
+    <h2>Dịch vụ</h2>
+    <div class="cards">
+      <div class="card">🌐 Web Hosting</div>
+      <div class="card">💾 Cloud Storage</div>
+      <div class="card">🛡️ Security</div>
+    </div>
+  </section>
+
+  <section id="features" class="section">
+    <h2>Tính năng nổi bật</h2>
+    <ul>
+      <li>⚡ Hiệu năng cao</li>
+      <li>🔒 Bảo mật chuẩn quốc tế</li>
+      <li>☁️ Mở rộng linh hoạt</li>
+    </ul>
+  </section>
+
+  <section id="pricing" class="section">
+    <h2>Bảng giá</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Basic</h3>
+        <p>99.000đ/tháng</p>
+        <button class="btn-secondary">Đăng ký</button>
+      </div>
+      <div class="card">
+        <h3>Pro</h3>
+        <p>199.000đ/tháng</p>
+        <button class="btn-secondary">Đăng ký</button>
+      </div>
+      <div class="card">
+        <h3>Enterprise</h3>
+        <p>499.000đ/tháng</p>
+        <button class="btn-secondary">Đăng ký</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <h2>Liên hệ</h2>
+    <form id="contactForm">
+      <input type="text" placeholder="Họ và tên" required />
+      <input type="email" placeholder="Email" required />
+      <textarea placeholder="Nội dung" required></textarea>
+      <button type="submit" class="btn-primary">Gửi</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 AsakaCloud. All rights reserved.</p>
+  </footer>
 </body>
 </html>
