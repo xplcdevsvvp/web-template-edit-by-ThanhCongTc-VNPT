@@ -6,336 +6,183 @@
   <title>Zing Cloud</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Hiệu ứng gradient nền */
     body {
+      background: linear-gradient(135deg, #1e1b4b, #312e81, #000);
+      color: white;
       font-family: system-ui, sans-serif;
-      background: linear-gradient(135deg, #6b21a8, #1d4ed8, #000000);
-      min-height: 100vh;
       overflow-x: hidden;
     }
-    /* Hiệu ứng nút */
-    .btn-zoom:active {
-      transform: scale(1.05);
-      transition: transform 0.15s ease;
-    }
-    /* Header co giãn */
-    header { transition: all 0.3s ease; }
-    header.shrink { padding: 0.5rem 1rem; background: rgba(0,0,0,0.8); }
-    header.expand { padding: 1.5rem 2rem; }
 
     /* Loading logo */
-    #loading-screen {
+    #loading {
       position: fixed;
-      top:0;left:0;width:100%;height:100%;
-      display:flex;align-items:center;justify-content:center;
-      background:black;z-index:50;
-      transition: opacity 1s ease;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
     }
-    #loading-logo {
-      font-size:3rem;
-      font-weight:bold;
-      color:#7c3aed;
-      animation: pulse 2s infinite;
+    .logo-3d {
+      font-size: 80px;
+      font-weight: bold;
+      color: #6d28d9;
+      text-shadow: 0 0 20px #3b82f6, 0 0 40px #9333ea;
+      transform: perspective(500px) rotateX(20deg) rotateY(-15deg);
+      animation: spin 3s linear infinite;
     }
-    @keyframes pulse {
-      0% { transform: scale(1); color:#7c3aed; }
-      50% { transform: scale(1.2); color:#2563eb; }
-      100% { transform: scale(1); color:#7c3aed; }
+    @keyframes spin {
+      0% { transform: perspective(500px) rotateY(0deg);}
+      100% { transform: perspective(500px) rotateY(360deg);}
     }
-    /* Thanh hình ảnh chạy ngang */
-    .scroll-line {
-      display:flex;
-      gap:20px;
-      animation: scroll 15s linear infinite;
-    }
-    .scroll-item {
-      width:100px;height:100px;
-      border-radius:20px;
-      background:rgba(255,255,255,0.1);
-      display:flex;align-items:center;justify-content:center;
-      color:white;font-weight:bold;
-      animation: spin 5s linear infinite;
-    }
-    @keyframes scroll { from{transform:translateX(100%);} to{transform:translateX(-100%);} }
-    @keyframes spin { from{transform:rotate(0);} to{transform:rotate(360deg);} }
 
-    /* Popup */
-    .popup { display:none; position:fixed;top:0;left:0;width:100%;height:100%; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; z-index:40; }
-    .popup-content { background:white; padding:2rem; border-radius:1rem; width:90%;max-width:400px; }
+    /* Header co giãn */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    header.large { padding: 20px 40px; font-size: 22px; }
+    header.small { padding: 8px 20px; font-size: 16px; }
+
+    /* Nút hiệu ứng phóng to */
+    .btn {
+      background: linear-gradient(90deg, #4f46e5, #9333ea);
+      padding: 12px 24px;
+      border-radius: 12px;
+      transition: transform 0.2s;
+    }
+    .btn:active { transform: scale(1.1); }
+
+    /* Dòng hình ảnh auto lướt */
+    .image-row {
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      margin-top: 100px;
+    }
+    .image-row img {
+      width: 200px;
+      height: 200px;
+      margin: 0 20px;
+      border-radius: 20px;
+      display: inline-block;
+      animation: move 15s linear infinite, rotate 6s linear infinite;
+    }
+    @keyframes move {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Biểu tượng liên hệ */
+    .contact-btn {
+      position: fixed;
+      bottom: 20px; right: 20px;
+      background: #4f46e5;
+      color: white;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 0 15px #4f46e5;
+    }
+    .contact-menu {
+      position: fixed;
+      bottom: 90px; right: 20px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+    .contact-menu a {
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 12px;
+      backdrop-filter: blur(5px);
+      text-decoration: none;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
-
   <!-- Loading -->
-  <div id="loading-screen">
-    <div id="loading-logo">Z</div>
+  <div id="loading">
+    <div class="logo-3d">Z</div>
   </div>
 
   <!-- Header -->
-  <header id="header" class="expand fixed w-full text-white flex justify-between items-center px-6 z-30">
+  <header class="large flex justify-between items-center px-6">
     <div class="text-2xl font-bold">Zing Cloud</div>
-    <nav class="flex gap-6">
-      <a href="#services" class="hover:text-blue-400">Dịch vụ</a>
-      <a href="#contact" class="hover:text-blue-400">Liên hệ</a>
-      <a href="#support" class="hover:text-blue-400">Hỗ trợ</a>
-      <button onclick="openPopup('loginPopup')" class="btn-zoom bg-blue-600 px-4 py-2 rounded-lg">Đăng nhập</button>
-      <button onclick="openPopup('registerPopup')" class="btn-zoom bg-purple-600 px-4 py-2 rounded-lg">Đăng ký</button>
+    <nav class="space-x-6">
+      <a href="#" class="hover:text-blue-400">Trang chủ</a>
+      <a href="#" class="hover:text-blue-400">Dịch vụ</a>
+      <a href="#" class="hover:text-blue-400">Hỗ trợ</a>
+      <a href="#" class="hover:text-blue-400">Liên hệ</a>
     </nav>
   </header>
 
-  <!-- Main -->
-  <main class="pt-32 px-6 text-white">
-    <section class="text-center mb-16">
-      <h1 class="text-4xl font-bold mb-4">Chào mừng đến với Zing Cloud</h1>
-      <p class="text-lg">Dịch vụ VPS, Cloud Game, và máy chủ hiệu năng cao</p>
-    </section>
+  <!-- Nội dung -->
+  <main class="pt-32 px-6 text-center">
+    <h1 class="text-4xl font-bold mb-6">Chào mừng đến với Zing Cloud</h1>
+    <p class="mb-8">Dịch vụ VPS, Cloud Game, Premium Hosting với hiệu ứng đẹp mắt và hiện đại.</p>
+    <button class="btn">Bắt đầu ngay</button>
 
-    <!-- Thanh hình ảnh -->
-    <div class="overflow-hidden h-[250px] mb-16">
-      <div class="scroll-line">
-        <div class="scroll-item">Verify</div>
-        <div class="scroll-item">Logo</div>
-        <div class="scroll-item">User</div>
-        <div class="scroll-item">API</div>
-      </div>
+    <!-- Dòng hình ảnh -->
+    <div class="image-row mt-16">
+      <img src="https://via.placeholder.com/200x200?text=Logo" alt="logo">
+      <img src="https://via.placeholder.com/200x200?text=Verify" alt="verify">
+      <img src="https://via.placeholder.com/200x200?text=User" alt="user">
+      <img src="https://via.placeholder.com/200x200?text=Cloud" alt="cloud">
     </div>
-
-    <!-- Dịch vụ -->
-    <section id="services" class="mb-16">
-      <h2 class="text-3xl font-bold mb-6 text-center">Dịch vụ của chúng tôi</h2>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-white/10 p-6 rounded-xl text-center">
-          <h3 class="text-xl font-bold">VPS</h3>
-          <p>Máy chủ ảo hiệu năng cao</p>
-          <button class="btn-zoom mt-4 bg-blue-600 px-4 py-2 rounded-lg">Xem gói</button>
-        </div>
-        <div class="bg-white/10 p-6 rounded-xl text-center">
-          <h3 class="text-xl font-bold">Cloud Game</h3>
-          <p>Máy chủ tối ưu cho game</p>
-          <button class="btn-zoom mt-4 bg-blue-600 px-4 py-2 rounded-lg">Xem gói</button>
-        </div>
-        <div class="bg-white/10 p-6 rounded-xl text-center">
-          <h3 class="text-xl font-bold">Khác</h3>
-          <p>Nhiều loại máy chủ linh hoạt</p>
-          <button class="btn-zoom mt-4 bg-blue-600 px-4 py-2 rounded-lg">Xem gói</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Liên hệ -->
-    <section id="contact" class="mb-16">
-      <h2 class="text-3xl font-bold mb-6 text-center">Liên hệ</h2>
-      <ul class="space-y-2 text-center">
-        <li>📧 Email: pharmas.asaka@gmail.com</li>
-        <li>📱 Điện thoại: 0705 983 391</li>
-        <li>💬 Messenger / Facebook / Discord</li>
-      </ul>
-    </section>
   </main>
 
-  <!-- Popup đăng nhập -->
-  <div id="loginPopup" class="popup">
-    <div class="popup-content">
-      <h2 class="text-xl font-bold mb-4">Đăng nhập</h2>
-      <input type="text" placeholder="Email" class="border w-full mb-2 p-2 rounded">
-      <input type="password" placeholder="Mật khẩu" class="border w-full mb-2 p-2 rounded">
-      <button class="btn-zoom bg-blue-600 text-white px-4 py-2 rounded w-full">Đăng nhập</button>
-      <button onclick="closePopup('loginPopup')" class="mt-2 text-red-600">Đóng</button>
-    </div>
-  </div>
-
-  <!-- Popup đăng ký -->
-  <div id="registerPopup" class="popup">
-    <div class="popup-content">
-      <h2 class="text-xl font-bold mb-4">Đăng ký</h2>
-      <input type="text" placeholder="Email" class="border w-full mb-2 p-2 rounded">
-      <input type="password" placeholder="Mật khẩu" class="border w-full mb-2 p-2 rounded">
-      <button class="btn-zoom bg-purple-600 text-white px-4 py-2 rounded w-full">Đăng ký</button>
-      <button onclick="closePopup('registerPopup')" class="mt-2 text-red-600">Đóng</button>
-    </div>
-  </div>
-
-  <!-- Biểu tượng chat -->
-  <div class="fixed bottom-4 right-4 bg-blue-600 p-4 rounded-full shadow-lg cursor-pointer">
-    💬
+  <!-- Nút liên hệ -->
+  <div class="contact-btn" id="contactBtn">✉</div>
+  <div class="contact-menu" id="contactMenu">
+    <a href="https://discord.gg/" target="_blank">Discord</a>
+    <a href="https://facebook.com/" target="_blank">Facebook</a>
+    <a href="https://m.me/" target="_blank">Messenger</a>
+    <a href="mailto:pharmas.asaka@gmail.com">Email</a>
+    <a href="tel:0705983391">Hotline</a>
   </div>
 
   <script>
     // Loading
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        document.getElementById("loading-screen").style.opacity = "0";
-        setTimeout(() => document.getElementById("loading-screen").style.display = "none", 1000);
-      }, 5000);
-    });
+    setTimeout(() => {
+      document.getElementById('loading').style.display = 'none';
+    }, 5000);
 
     // Header co giãn
-    window.addEventListener("scroll", () => {
-      const header = document.getElementById("header");
-      if (window.scrollY > 50) header.classList.add("shrink");
-      else header.classList.remove("shrink");
+    window.addEventListener("scroll", function() {
+      let header = document.querySelector("header");
+      if (window.scrollY > 50) {
+        header.classList.remove("large");
+        header.classList.add("small");
+      } else {
+        header.classList.remove("small");
+        header.classList.add("large");
+      }
     });
 
-    // Popup
-    function openPopup(id){ document.getElementById(id).style.display="flex"; }
-    function closePopup(id){ document.getElementById(id).style.display="none"; }
-  </script>
-</body>
-</html>    }
-
-    .card:hover {
-      transform: translateY(-6px) scale(1.05);
-      box-shadow: 0 0 20px #00ffff, 0 0 40px #ff00cc;
-    }
-
-    .card h3 {
-      margin-bottom: 10px;
-      color: #fff;
-    }
-
-    .card p {
-      font-size: 14px;
-      color: #aaa;
-    }
-
-    /* Server Quality Box */
-    .server-box {
-      max-width: 1000px;
-      margin: 0 auto 50px;
-      border-radius: 18px;
-      background: rgba(25,25,25,0.8);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 24px;
-      box-shadow: 0 0 15px rgba(0,255,255,0.15);
-    }
-
-    .server-box h4 {
-      margin-bottom: 15px;
-      color: #00ffff;
-    }
-
-    .server-box ul {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 8px;
-      color: #ccc;
-      font-size: 14px;
-    }
-
-    /* Image Section */
-    .feature-img {
-      max-width: 1000px;
-      margin: 0 auto;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0,255,255,0.2);
-    }
-
-    .feature-img img {
-      width: 100%;
-      display: block;
-    }
-
-    /* Footer */
-    footer {
-      background: #000;
-      color: #888;
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    /* Fade-in Animation on Scroll */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 1s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Navbar -->
-  <div class="navbar">
-    <div class="logo">Chỉ Cloud</div>
-    <nav>
-      <a href="#">Trang chủ</a>
-      <a href="#">Dịch vụ</a>
-      <a href="#">Hỗ trợ</a>
-      <a href="#">Đăng nhập</a>
-      <a href="#">Đăng ký</a>
-    </nav>
-  </div>
-
-  <!-- Hero -->
-  <div class="hero fade-in">
-    <h1>Hosting & Cloud Gaming</h1>
-    <p>Giải pháp máy chủ mạnh mẽ, tốc độ cao, bảo mật tối ưu dành cho cộng đồng game & doanh nghiệp.</p>
-    <button class="button">Xem dịch vụ</button>
-  </div>
-
-  <!-- Features -->
-  <section id="features" class="fade-in">
-    <h2>Phần cứng chất lượng cao</h2>
-    <p class="section-desc">Máy chủ của chúng tôi được xây dựng trên nền tảng phần cứng enterprise hàng đầu, đảm bảo hiệu năng ổn định và độ tin cậy tuyệt đối cho mọi máy chủ.</p>
-
-    <div class="grid">
-      <div class="card">
-        <h3>🖥️ CPU Server CLC</h3>
-        <p>Intel® Xeon® Gold series & AMD® Ryzen™ 9000 series – hiệu năng vượt trội.</p>
-      </div>
-      <div class="card">
-        <h3>💾 RAM DDR4 ECC</h3>
-        <p>Bộ nhớ ECC hạn chế lỗi, tăng độ ổn định hệ thống.</p>
-      </div>
-      <div class="card">
-        <h3>⚡ SSD NVMe</h3>
-        <p>Tốc độ truy xuất dữ liệu cực nhanh, giảm lag & lỗi đĩa.</p>
-      </div>
-      <div class="card">
-        <h3>🌐 Port 40Gbps</h3>
-        <p>Kết nối mạng cực cao, ping thấp, trải nghiệm mượt mà.</p>
-      </div>
-    </div>
-
-    <div class="server-box">
-      <h4>Server chất lượng cao</h4>
-      <ul>
-        <li>• Datacenter FPT/CMC/VNPT</li>
-        <li>• Bảo vệ RAID phần cứng</li>
-        <li>• Nguồn điện dự phòng</li>
-        <li>• Giám sát phần cứng 24/7</li>
-      </ul>
-    </div>
-
-    <div class="feature-img">
-      <img src="https://i.imgur.com/DgGZpL1.jpeg" alt="AMD EPYC">
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    © 2025 Chỉ Cloud | Thiết kế bởi Chỉ 💙
-  </footer>
-
-  <script>
-    // Scroll animation
-    const faders = document.querySelectorAll('.fade-in');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.2 });
-
-    faders.forEach(fader => observer.observe(fader));
+    // Nút liên hệ
+    const btn = document.getElementById("contactBtn");
+    const menu = document.getElementById("contactMenu");
+    btn.addEventListener("click", () => {
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
   </script>
 </body>
 </html>
