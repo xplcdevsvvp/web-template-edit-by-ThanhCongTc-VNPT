@@ -1,0 +1,18 @@
+{
+  "name": "typography-sandbox",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static front-end sandbox for visualizing and testing font effects",
+  "scripts": {
+    "dev": "npx http-server public -p 8080 -c-1",
+    "build": "echo \"No build step required for static demo\"",
+    "test-font": "npx playwright test tests/font-tests.spec.js --config=tests/playwright.config.js"
+  },
+  "author": "Copilot",
+  "license": "MIT",
+  "devDependencies": {
+    "@axe-core/playwright": "^5.0.0",
+    "@playwright/test": "^1.40.0",
+    "http-server": "^14.1.1"
+  }
+}
